@@ -32,6 +32,7 @@ export type FPLFormOptions = {
   Rounding: string;
   Scaling: string;
   Unresolved: string;
+  Custom: string;
 };
 
 const fplFields: Array<FormField<FPLFormOptions>> = [
@@ -148,6 +149,12 @@ const optionalCustomAncillaryDataFields: Array<FormField<FPLFormOptions>> = [
       "This is numeric value that voters should return for unresolvable price request (defaults to zero if omitted).",
     rules: {},
   },
+  {
+    name: "Custom",
+    description:
+      "Extra Custom Data that the user may wish to add onto the request.",
+    rules: {},
+  },
 ];
 
 const gasPriceField: FormField<FPLFormOptions> = {
@@ -195,6 +202,7 @@ const FPLForm: React.FC<IFPLForm> = ({
     Aggregation,
     Scaling,
     Unresolved,
+    Custom,
     ...data
   }: FPLFormOptions): Partial<LaunchFormOptions> => ({
     ...data,
@@ -208,6 +216,7 @@ const FPLForm: React.FC<IFPLForm> = ({
       Aggregation,
       Scaling,
       Unresolved,
+      Custom, 
     }),
   });
 
