@@ -216,7 +216,7 @@ export default async function launchLSP({
 
     const deployedFPL = new web3.eth.Contract(
       fplParams.abi,
-      fplParams.address,
+      fplParams.lspAddress,
       contractParams,
     );
 
