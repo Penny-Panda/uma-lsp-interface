@@ -2,6 +2,7 @@ import { getLongShortPairAbi } from "@uma/contracts-frontend";
 
 import erc20ABI from "../ABIs/ERC20ABI.json";
 import { MintLSPPairOptions } from "./models";
+import lspAddress from "./LaunchLSP";
 
 export default async function mintLSPPair({
   web3,
