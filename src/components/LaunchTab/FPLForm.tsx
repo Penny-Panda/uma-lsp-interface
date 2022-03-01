@@ -32,7 +32,7 @@ export type FPLFormOptions = {
   Rounding: string;
   Scaling: string;
   Unresolved: string;
-  "": string;
+  [""]: string;
 };
 
 const fplFields: Array<FormField<FPLFormOptions>> = [
@@ -202,7 +202,7 @@ const FPLForm: React.FC<IFPLForm> = ({
     Aggregation,
     Scaling,
     Unresolved,
-    "",
+    [""],
     ...data
   }: FPLFormOptions): Partial<LaunchFormOptions> => ({
     ...data,
@@ -216,7 +216,7 @@ const FPLForm: React.FC<IFPLForm> = ({
       Aggregation,
       Scaling,
       Unresolved,
-      "", 
+      [""], 
     }),
   });
 
