@@ -32,7 +32,7 @@ export type FPLFormOptions = {
   Rounding: string;
   Scaling: string;
   Unresolved: string;
-  Custom: string;
+  "": string;
 };
 
 const fplFields: Array<FormField<FPLFormOptions>> = [
@@ -202,7 +202,7 @@ const FPLForm: React.FC<IFPLForm> = ({
     Aggregation,
     Scaling,
     Unresolved,
-    Custom,
+    "",
     ...data
   }: FPLFormOptions): Partial<LaunchFormOptions> => ({
     ...data,
@@ -216,7 +216,7 @@ const FPLForm: React.FC<IFPLForm> = ({
       Aggregation,
       Scaling,
       Unresolved,
-      Custom, 
+      "", 
     }),
   });
 
@@ -232,7 +232,7 @@ const FPLForm: React.FC<IFPLForm> = ({
 
     Object.entries(launchOptions).forEach(([key, value]) => {
       if (!value) return;
-
+    
       url.searchParams.set(
         key,
         key === "expirationTimestamp"
