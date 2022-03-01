@@ -32,7 +32,7 @@ export type FPLFormOptions = {
   Rounding: string;
   Scaling: string;
   Unresolved: string;
-  : string;
+  Custom: string;
 };
 
 const fplFields: Array<FormField<FPLFormOptions>> = [
@@ -150,7 +150,7 @@ const optionalCustomAncillaryDataFields: Array<FormField<FPLFormOptions>> = [
     rules: {},
   },
   {
-    name: "",
+    name: "Custom",
     description:
       "Extra Custom Data that the user may wish to add onto the request.",
     rules: {},
@@ -202,7 +202,7 @@ const FPLForm: React.FC<IFPLForm> = ({
     Aggregation,
     Scaling,
     Unresolved,
-    ,
+    Custom,
     ...data
   }: FPLFormOptions): Partial<LaunchFormOptions> => ({
     ...data,
@@ -216,7 +216,7 @@ const FPLForm: React.FC<IFPLForm> = ({
       Aggregation,
       Scaling,
       Unresolved,
-      , 
+      Custom, 
     }),
   });
 
