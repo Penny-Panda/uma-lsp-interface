@@ -150,7 +150,7 @@ const optionalCustomAncillaryDataFields: Array<FormField<FPLFormOptions>> = [
     rules: {},
   },
   {
-    name: "Custom",
+    name: "",
     description:
       "Extra Custom Data that the user may wish to add onto the request.",
     rules: {},
