@@ -21,6 +21,7 @@
     "@uma/contracts-frontend": "^0.1.17",
     "bnc-onboard": "^1.36.0",
     "date-fns": "^2.27.0",
+    "env": "^0.0.2",
     "notistack": "^2.0.3",
     "prettier": "^2.5.1",
     "react": "^17.0.2",

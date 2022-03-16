@@ -252,6 +252,7 @@ const FPLForm: React.FC<IFPLForm> = ({
     const simulate = submitEvent === "simulate";
 
     const launchOptions = saveFormOptions(prepareFormOptions(data));
+    console.log("Launch Options: ", launchOptions);
 
     if (!web3) return;
 
