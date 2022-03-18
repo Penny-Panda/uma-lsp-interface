@@ -358,6 +358,9 @@ const LSPForm: React.FC<ILSPForm> = ({
 
     return (
       <Grid key={lspField.name} item xs={12} sm={6}>
+        <Typography>
+          name={lspField.name as never}
+        </Typography>
         <Controller
           name={lspField.name as never}
           control={control}

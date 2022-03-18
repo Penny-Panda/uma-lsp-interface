@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/system";
 import homeImage from "../images/homeImage.png";
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { AppContext } from "../contexts/AppContext";
 
 function HomePage({setCurrentTab}:{setCurrentTab: any}) {
