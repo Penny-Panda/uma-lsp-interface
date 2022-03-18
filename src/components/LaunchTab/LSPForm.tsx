@@ -1,4 +1,5 @@
 import { endOfToday, isAfter } from "date-fns";
+// import { alpha, styled } from '@mui/material/styles';
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
@@ -17,6 +18,7 @@ import Select from "@mui/material/Select";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+// import InputBase from '@mui/material/InputBase';
 
 import { AppContext } from "../../contexts/AppContext";
 import { collateralTokens, priceIdentifiers } from "../../helpers/constants";
@@ -176,6 +178,8 @@ const optionalLspFields: Array<FormField<LSPFormOptions>> = [
     },
   },
 ];
+
+
 
 interface ILSPForm {
   formOptions: LaunchFormOptions;
@@ -358,8 +362,8 @@ const LSPForm: React.FC<ILSPForm> = ({
 
     return (
       <Grid key={lspField.name} item xs={12} sm={6}>
-        <Typography>
-          name={lspField.name as never}
+        <Typography variant="h5">
+          {/* {lspField.name as never} */}
         </Typography>
         <Controller
           name={lspField.name as never}

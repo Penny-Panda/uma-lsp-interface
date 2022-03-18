@@ -4,7 +4,8 @@ import homeImage from "../images/homeImage.png";
 import { Button, Grid, Typography } from "@mui/material";
 import { AppContext } from "../contexts/AppContext";
 
-function HomePage({setCurrentTab}:{setCurrentTab: any}) {
+
+const HomePage = ({setCurrentTab}:{setCurrentTab: any}) => {
     const { userAddress, connectWallet } = React.useContext(AppContext);
     
     return (
@@ -12,39 +13,35 @@ function HomePage({setCurrentTab}:{setCurrentTab: any}) {
         <Grid
             container
             alignItems="center"
-            justifyContent="space-between"
-            sx={{
-                m: 0,
-                pt: 12
-            }}
+            sx={{ m: 0, pt: { sm: 8, lg: 12}, justifyContent: {sm: 'space-around', md: 'space-between'} }}
         >
             <Grid item sx={{ bgcolor: "background.default" }}>
-                <Typography variant="h1" gutterBottom fontWeight='500'>
+                <Typography gutterBottom fontWeight='500' sx={{fontSize: ['2em', '3em', '4em']}}>
                     Deploy and Distribute
                     <br />
                     UMA LSP tokens
                     <br />
                     using Superfluid's supertokens.
                 </Typography>
-                <Typography gutterBottom variant="h6">
+                <Typography gutterBottom  sx={{fontSize: ['0.7em', '1em', '1.2em']}}>
                     Supported LSP tokens: Range, Success, KPI Options.
                     <br />
                     Supported Networks: Mainnet, Kovan, Polygon, Mumbai.
                 </Typography>
                 
-                <Box sx={{my: 5}}>
+                <Box sx={{my: 4}}>
                     {userAddress?
                         (
                             <Box>
-                                <Button sx={{mr: 4, py: 2, width: '15em'}} variant="contained" onClick={() => setCurrentTab(1)}>
+                                <Button sx={{mr: 4, mt: 3, py: 2, width: '15em'}} variant="contained" onClick={() => setCurrentTab(1)}>
                                     Launch
                                 </Button>
-                                <Button sx={{mr: 4, p: 2, width: '15em'}} variant="contained" onClick={() => setCurrentTab(2)}>
+                                <Button sx={{mr: 4, mt:3, py: 2, width: '15em'}} variant="contained" onClick={() => setCurrentTab(2)}>
                                     Distrubute
                                 </Button>
                             </Box>
                         ):(
-                        <Button sx={{mr: 4, p: 2, width: '15em'}} variant="contained" onClick={() => connectWallet()}>
+                        <Button sx={{mr: 4, mt:3, py: 2, width: '15em'}} variant="contained" onClick={() => connectWallet()}>
                             Connect wallet
                         </Button>
                     )}
@@ -53,10 +50,12 @@ function HomePage({setCurrentTab}:{setCurrentTab: any}) {
             <Grid
             item
             sx={{
+                display: ['none', 'npne', 'none', 'block'],
                 width: "207px",
                 height: "254px",
                 backgroundColor: "#473f51",
                 padding: "48px",
+                mx: 8
             }}
             >
             <Box src={homeImage} component="img" />

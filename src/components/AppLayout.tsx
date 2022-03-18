@@ -16,7 +16,7 @@ const AppLayout: React.FC = ({ children }) => {
       <Container component="main" style={{maxWidth: 'inherit'}} sx={{ mb: 4, mt: 1 }}>
         <Container
           style={{maxWidth: 'inherit'}} 
-          sx={{ p: { xs: 6, md: 6 } }}
+          sx={{ p: { xs: 4, md: 6 }}}
         >
           <Backdrop
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
