@@ -21,7 +21,7 @@ import { ColorModeContext } from "../contexts/ColorModeContext";
 import { chains } from "../helpers/constants";
 import { truncateAddress } from "../helpers/utils";
 
-const Header: React.FC = () => {
+const Header = ({setCurrentTab}:{setCurrentTab: any}) => {
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
   const { userAddress, chainId, changeChain, connectWallet } = React.useContext(AppContext);
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
   return (
     <React.Fragment>
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Typography variant="h3" sx={{fontWeight: 500}} component="div" >
+        <Typography onClick={() => setCurrentTab(0)} variant="h3" sx={{fontWeight: 500, cursor:'pointer'}} component="div" >
           UMA LSP Interface
         </Typography>
         <Box display="flex">

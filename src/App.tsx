@@ -10,6 +10,7 @@ import DistributeTab from "./components/DistributeTab";
 import Header from "./components/Header";
 import LaunchTab from "./components/LaunchTab";
 import { AppContext } from "./contexts/AppContext";
+import HomePage from "./components/HomePage";
 
 const tabs = ["Launch", "Distribute"];
 
@@ -38,25 +39,15 @@ function App() {
 
   return (
     <React.Fragment>
-      <Header />
-      {userAddress && (
-        <React.Fragment>
-          <Box sx={{ bgcolor: "background.default" }}>
-            <Tabs
-              value={currentTab}
-              onChange={onTabChange}
-              indicatorColor="primary"
-              orientation={isMobile ? "vertical" : "horizontal"}
-              textColor="inherit"
-              variant="fullWidth"
-            >
-              <Tab label="Launch" sx={{ borderRight: tabBorder }} />
-              <Tab label="Distribute" sx={{ borderLeft: tabBorder }} />
-            </Tabs>
-          </Box>
-          {currentTab === 0 ? <LaunchTab /> : <DistributeTab />}
-        </React.Fragment>
-      )}
+      <Header setCurrentTab={setCurrentTab} />
+      {(currentTab == 0)?
+        <HomePage setCurrentTab={setCurrentTab} />:
+        (
+          (currentTab == 1)?
+          <LaunchTab />:
+          <DistributeTab />
+        )
+      }
     </React.Fragment>
   );
 }
