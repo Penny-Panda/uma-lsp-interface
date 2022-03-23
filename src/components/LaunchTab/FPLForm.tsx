@@ -13,6 +13,7 @@ import { FormField } from "../../helpers/models";
 import BaseInput from "../BaseInput";
 import BaseSnackbar from "../BaseSnackbar";
 import { LaunchFormOptions } from "./";
+import { camelToSentenceCase } from "../../helpers/utils";
 
 export type FPLFormOptions = {
   basePercentage: string;
@@ -307,7 +308,14 @@ const FPLForm: React.FC<IFPLForm> = ({
 
   const renderField = (fplField: FormField<FPLFormOptions>) => {
     return (
-      <Grid key={fplField.name} item xs={12} sm={6}>
+      <Grid key={fplField.name} container sm={10} sx={{ mb: 2 }}>
+      <Grid item xs={12} md={6} sx={{ pr: 8, mt: 3, mb: 1, lg: 3 } }>
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+          {camelToSentenceCase(fplField.name.toString())}
+        </Typography>
+        <Typography variant="subtitle1">{fplField.description}</Typography>
+      </Grid>
+      <Grid item xs={12} md={5}>
         <Controller
           name={fplField.name as never}
           control={control}
@@ -321,6 +329,7 @@ const FPLForm: React.FC<IFPLForm> = ({
             />
           )}
         />
+        </Grid>
       </Grid>
     );
   };
@@ -328,7 +337,7 @@ const FPLForm: React.FC<IFPLForm> = ({
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={3} sx={{ mt: 1 }}>
+        <Grid container justifyContent="center" spacing={3} sx={{ mt: 1 }}>
           <Grid item xs={12}>
             <Typography variant="h6">FPL parameters</Typography>
           </Grid>
@@ -372,7 +381,7 @@ const FPLForm: React.FC<IFPLForm> = ({
             <Typography variant="h6">Gas Price</Typography>
           </Grid>
           {renderField(gasPriceField)}
-          <Grid item xs={12} container alignItems="center">
+          <Grid item xs={12} container sx={{justifyContent: "flex-start"}}>
             <Button
               type="button"
               onClick={onBackClick}
@@ -385,7 +394,7 @@ const FPLForm: React.FC<IFPLForm> = ({
               Copy link
             </Button>
           </Grid>
-          <Grid item xs={12} container justifyContent="flex-end">
+          <Grid item xs={12} container sx={{justifyContent: "flex-end"}}>
             <Button type="submit" value="simulate" sx={{ mr: 2 }}>
               Simulate
             </Button>

@@ -1,14 +1,49 @@
 import React from "react";
 import { ControllerRenderProps } from "react-hook-form";
 
-import InfoIcon from "@mui/icons-material/Info";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
+import { InputBase, InputLabel } from "@mui/material";
 
 import { FormField } from "../helpers/models";
 import { camelToSentenceCase } from "../helpers/utils";
+
+import { alpha, styled } from '@mui/material/styles';
+
+
+const BootstrapInput = styled(InputBase)(({ theme }) => ({
+  'label + &': {
+    marginTop: theme.spacing(1),
+  },
+  '& .MuiInputBase-input': {
+    borderRadius: 4,
+    position: 'relative',
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '10px 12px',
+    transition: theme.transitions.create([
+      'border-color',
+      'background-color',
+      'box-shadow',
+    ]),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}));
 
 interface IBaseInput {
   disabled: boolean;
@@ -25,21 +60,19 @@ const BaseInput: React.FC<IBaseInput> = ({
   error,
   fullWidth = true,
 }) => {
-  const [isTooltipOpen, setTooltipOpen] = React.useState(false);
-
   return (
     <React.Fragment>
-      <Box display="flex" alignItems="flex-end">
-        <TextField
+      <Box display="flex" flexDirection='column' alignItems="flex-start">
+        <InputLabel sx={{ mt: { md: 0, lg: 2}, display: ['none', 'none', 'block'] }} htmlFor="bootstrap-input">
+          {camelToSentenceCase(customField.name.toString())}
+        </InputLabel>
+        <BootstrapInput
           id={`${customField.name.toString()}-input-label`}
           disabled={disabled}
           required={Boolean(customField.rules.required)}
           type={customField.type || "string"}
-          label={camelToSentenceCase(customField.name.toString())}
-          variant="standard"
           fullWidth={fullWidth}
           error={Boolean(error)}
-          helperText={error}
           inputProps={
             customField.type === "number"
               ? {
@@ -51,20 +84,6 @@ const BaseInput: React.FC<IBaseInput> = ({
           }
           {...hookFormField}
         />
-        {customField.description && (
-          <Tooltip
-            title={customField.description}
-            open={isTooltipOpen}
-            onOpen={() => setTooltipOpen(true)}
-            onClose={() => setTooltipOpen(false)}
-            leaveDelay={500}
-            placement="bottom-end"
-          >
-            <IconButton onClick={() => setTooltipOpen(!isTooltipOpen)}>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
-        )}
       </Box>
     </React.Fragment>
   );
