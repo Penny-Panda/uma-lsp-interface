@@ -277,14 +277,17 @@ const LSPForm: React.FC<ILSPForm> = ({
       }
 
       return (
-        <Grid key={lspField.name} container sm={10} sx={{ mb: 2 }}>
-          <Grid item xs={12} md={6} sx={{ pr: 8, mt: 3, mb: { md: 1, lg: 3 } }}>
+        <Grid key={lspField.name} container sm={10} sx={{ py: 3 }}>
+        <Grid item sm={10} md={6} sx={{ pr: 8, pt: 2}}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
               {camelToSentenceCase(lspField.name.toString())}
             </Typography>
             <Typography variant="subtitle1">{lspField.description}</Typography>
           </Grid>
           <Grid item xs={12} md={5}>
+            <InputLabel id={`${lspField.name}-select-label`} sx={{ mt: { md: 0, lg: 2}, display: ['none', 'none', 'block'] }} >
+              {label}
+            </InputLabel>
             <Controller
               name={lspField.name as never}
               control={control}
@@ -292,16 +295,9 @@ const LSPForm: React.FC<ILSPForm> = ({
               render={({ field, fieldState, formState }) => (
                 <FormControl
                   fullWidth
-                  sx={{ my: 3 }}
                   variant="standard"
                   error={Boolean(fieldState.error?.message)}
                 >
-                  <InputLabel
-                    sx={{ px: 2 }}
-                    id={`${lspField.name}-select-label`}
-                  >
-                    {label}
-                  </InputLabel>
                   <Select
                     labelId={`${lspField.name}-select-label`}
                     id={`${lspField.name}-select`}
@@ -309,6 +305,7 @@ const LSPForm: React.FC<ILSPForm> = ({
                     label={label}
                     disabled={formState.isSubmitting}
                     required={Boolean(lspField.rules.required)}
+                    sx={{ mt: 1, borderRadius: '4px', border: '1px solid #ced4da'}}
                     {...field}
                   >
                     {lspField.options!.map((option) => (
@@ -336,10 +333,9 @@ const LSPForm: React.FC<ILSPForm> = ({
         <Grid
           key={lspField.name}
           container
-          sm={10}
           alignItems="center"
-        >
-          <Grid item xs={12} md={6} sx={{ pr: 8, mt: 3, mb: { md: 1, lg: 3 } }}>
+          sm={10} sx={{ py: 3 }}>
+          <Grid item sm={10} md={6} sx={{ pr: 8, pt: 2}}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
               {camelToSentenceCase(lspField.name.toString())}
             </Typography>
@@ -369,8 +365,8 @@ const LSPForm: React.FC<ILSPForm> = ({
     }
 
     return (
-      <Grid key={lspField.name} container sm={10} sx={{ mb: 2 }}>
-        <Grid item sm={10} md={6} sx={{ pr: 8, mt: 3, mb: { md: 1, lg: 3 } }}>
+      <Grid key={lspField.name} container sm={10} sx={{ py: 3 }}>
+        <Grid item sm={10} md={6} sx={{ pr: 8, pt: 2}}>
           <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
             {camelToSentenceCase(lspField.name.toString())}
           </Typography>

@@ -14,6 +14,9 @@ import BaseInput from "../BaseInput";
 import BaseSnackbar from "../BaseSnackbar";
 import { LaunchFormOptions } from "./";
 import { camelToSentenceCase } from "../../helpers/utils";
+import BootstrapInput from "../BootstrapInput";
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import { useMediaQuery, useTheme } from "@mui/material";
 
 export type FPLFormOptions = {
   basePercentage: string;
@@ -192,6 +195,11 @@ const FPLForm: React.FC<IFPLForm> = ({
         : ({} as any)),
     },
   });
+  const theme = useTheme();
+  const showText = useMediaQuery(theme.breakpoints.down('sm'));
+  const [customList, setCustomList] = React.useState([
+    { label: "", value: "" },
+  ]);
 
   const prepareFormOptions = ({
     Metric,
@@ -203,10 +211,18 @@ const FPLForm: React.FC<IFPLForm> = ({
     Aggregation,
     Scaling,
     Unresolved,
-    Custom,
     ...data
-  }: FPLFormOptions): Partial<LaunchFormOptions> => ({
+  }: FPLFormOptions): Partial<LaunchFormOptions> => {
+    
+    let customData:{ [key: string]: string}[] = [];
+    customList.forEach((item) => {
+      const obj = { [item.label]: item.value }
+      customData.push(obj);
+    });
+    
+    return ({
     ...data,
+    ...customData,
     customAncillaryData: JSON.stringify({
       Metric,
       Endpoint,
@@ -216,10 +232,9 @@ const FPLForm: React.FC<IFPLForm> = ({
       Fallback,
       Aggregation,
       Scaling,
-      Unresolved,
-      Custom, 
+      Unresolved
     }),
-  });
+  })};
 
   const onBackClick = () => {
     saveFormOptions(prepareFormOptions(getValues()));
@@ -233,7 +248,7 @@ const FPLForm: React.FC<IFPLForm> = ({
 
     Object.entries(launchOptions).forEach(([key, value]) => {
       if (!value) return;
-    
+
       url.searchParams.set(
         key,
         key === "expirationTimestamp"
@@ -306,29 +321,127 @@ const FPLForm: React.FC<IFPLForm> = ({
     }
   };
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    idx: number,
+  ) => {
+    const name = e.target.name;
+    const newValue = e.target.value;
+    let newArr = [...customList];
+
+    if (name === "label") {
+      newArr[idx].label = newValue;
+    } else {
+      newArr[idx].value = newValue;
+    }
+    setCustomList(newArr);
+  };
+
+  const handleAdd = () => {
+    setCustomList((oldList) => [...oldList, { label: "", value: "" }]);
+  };
+
+  const handleRemove = (idx: number) => {
+    setCustomList((oldList) => {
+      return oldList.filter((val, index) => {
+        return index !== idx;
+      });
+    });
+  };
+
   const renderField = (fplField: FormField<FPLFormOptions>) => {
-    return (
-      <Grid key={fplField.name} container sm={10} sx={{ mb: 2 }}>
-      <Grid item xs={12} md={6} sx={{ pr: 8, mt: 3, mb: 1, lg: 3 } }>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-          {camelToSentenceCase(fplField.name.toString())}
-        </Typography>
-        <Typography variant="subtitle1">{fplField.description}</Typography>
-      </Grid>
-      <Grid item xs={12} md={5}>
-        <Controller
-          name={fplField.name as never}
-          control={control}
-          rules={fplField.rules}
-          render={({ field, fieldState, formState }) => (
-            <BaseInput
-              disabled={formState.isSubmitting}
-              customField={fplField}
-              hookFormField={field as any}
-              error={fieldState.error?.message || ""}
+    if (fplField.name === "Custom") {
+      const CustomComponent = (key: number) => (
+        <Grid
+          item
+          key={key}
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          xs={12}
+          spacing={1}
+          sx={{ pt: 2}}
+        >
+          <Grid item sm={5} xs={12}>
+            <BootstrapInput
+              name="label"
+              fullWidth
+              placeholder="Label"
+              value={customList[key].label}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e, key)
+              }
             />
-          )}
-        />
+          </Grid>
+          <Grid item sm={5} xs={12}>
+            <BootstrapInput
+              name="value"
+              fullWidth
+              placeholder="Value"
+              value={customList[key].value}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e, key)
+              }
+            />
+          </Grid>
+          <Grid item sm={1} xs={12}>
+            {customList.length > 0 && (
+              <Button variant="outlined" fullWidth onClick={() => handleRemove(key)}>
+                {
+                  !showText? <DeleteRoundedIcon />: "Remove"
+                }
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      );
+
+      return (
+        <Grid key={fplField.name} container sm={10} sx={{ py: 3 }}>
+          <Grid item sm={10} sx={{ pt: 2 }}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+              {camelToSentenceCase(fplField.name.toString())}
+            </Typography>
+            <Typography variant="subtitle1">{fplField.description}</Typography>
+          </Grid>
+
+          {customList.map((prop, idx) => {
+            return CustomComponent(idx);
+          })}
+
+          <Grid item xs={12} md={6} sx={{ pt: 3, display: 'flex', justifyContent: {xs: 'center', md: 'flex-start'}}}>
+            {customList.length < 5 && (
+              <Button variant="contained" onClick={handleAdd}>
+                Add Property
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      );
+    }
+
+    return (
+      <Grid key={fplField.name} container sm={10} sx={{ py: 3 }}>
+        <Grid item sm={10} md={6} sx={{ pr: 8, pt: 2 }}>
+          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+            {camelToSentenceCase(fplField.name.toString())}
+          </Typography>
+          <Typography variant="subtitle1">{fplField.description}</Typography>
+        </Grid>
+        <Grid item xs={12} md={5}>
+          <Controller
+            name={fplField.name as never}
+            control={control}
+            rules={fplField.rules}
+            render={({ field, fieldState, formState }) => (
+              <BaseInput
+                disabled={formState.isSubmitting}
+                customField={fplField}
+                hookFormField={field as any}
+                error={fieldState.error?.message || ""}
+              />
+            )}
+          />
         </Grid>
       </Grid>
     );
@@ -381,24 +494,24 @@ const FPLForm: React.FC<IFPLForm> = ({
             <Typography variant="h6">Gas Price</Typography>
           </Grid>
           {renderField(gasPriceField)}
-          <Grid item xs={12} container sx={{justifyContent: "flex-start"}}>
+          <Grid item xs={6} container sx={{ justifyContent: "flex-start" }}>
             <Button
               type="button"
               onClick={onBackClick}
               variant="contained"
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, mt: 2 }}
             >
               Back
             </Button>
-            <Button type="button" onClick={onCopyClick} variant="contained">
+            <Button type="button" onClick={onCopyClick} variant="contained" sx={{mt: 2}}>
               Copy link
             </Button>
           </Grid>
-          <Grid item xs={12} container sx={{justifyContent: "flex-end"}}>
-            <Button type="submit" value="simulate" sx={{ mr: 2 }}>
+          <Grid item xs={6} container sx={{ justifyContent: "flex-end" }}>
+            <Button type="submit" value="simulate" sx={{ mt: 2 }}>
               Simulate
             </Button>
-            <Button type="submit" variant="contained" value="deploy">
+            <Button type="submit" variant="contained" value="deploy" sx={{ml: 2, mt: 2}}>
               Deploy
             </Button>
           </Grid>
