@@ -50,7 +50,7 @@ const HomePage = ({setCurrentTab}:{setCurrentTab: any}) => {
             <Grid
             item
             sx={{
-                display: ['none', 'npne', 'none', 'none', 'block'],
+                display: ['none', 'none', 'none', 'none', 'block'],
                 width: "207px",
                 height: "254px",
                 backgroundColor: "#473f51",
