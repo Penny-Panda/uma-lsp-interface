@@ -214,15 +214,14 @@ const FPLForm: React.FC<IFPLForm> = ({
     ...data
   }: FPLFormOptions): Partial<LaunchFormOptions> => {
     
-    let customData:{ [key: string]: string}[] = [];
+    let customData: {[key: string]: string} = {};
     customList.forEach((item) => {
-      const obj = { [item.label]: item.value }
-      customData.push(obj);
+      customData[item.label] = item.value;
     });
     
+    console.log("Custom DATA: ", customData);
     return ({
     ...data,
-    ...customData,
     customAncillaryData: JSON.stringify({
       Metric,
       Endpoint,
@@ -232,7 +231,8 @@ const FPLForm: React.FC<IFPLForm> = ({
       Fallback,
       Aggregation,
       Scaling,
-      Unresolved
+      Unresolved,
+      ...customData,
     }),
   })};
 
