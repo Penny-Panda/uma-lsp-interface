@@ -33,6 +33,7 @@ const LaunchTab: React.FC = () => {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    console.log(activeStep);
   };
 
   const handleBack = () => {

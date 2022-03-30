@@ -4,7 +4,6 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
-import Paper from "@mui/material/Paper";
 
 import { AppContext } from "../contexts/AppContext";
 
@@ -14,10 +13,10 @@ const AppLayout: React.FC = ({ children }) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+      <Container component="main" style={{maxWidth: 'inherit'}} sx={{ mb: 4, mt: 1 }}>
+        <Container
+          style={{maxWidth: 'inherit'}} 
+          sx={{ p: { xs: 4, md: 6 }}}
         >
           <Backdrop
             sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -26,7 +25,7 @@ const AppLayout: React.FC = ({ children }) => {
             <CircularProgress color="primary" />
           </Backdrop>
           {children}
-        </Paper>
+        </Container>
       </Container>
     </React.Fragment>
   );

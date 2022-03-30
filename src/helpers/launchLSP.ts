@@ -207,7 +207,7 @@ export default async function launchLSP({
     contractParams,
   );
 
-  const address = await lspCreator.methods
+  const lspAddress = await lspCreator.methods
     .createLongShortPair(lspParams)
     .call();
 
@@ -221,9 +221,9 @@ export default async function launchLSP({
     );
 
     await deployedFPL.methods
-      .setLongShortPairParameters(address, ...fplContractParamsInWei)
+      .setLongShortPairParameters(lspAddress, ...fplContractParamsInWei)
       .send();
   }
 
-  return address;
+  return lspAddress;
 }

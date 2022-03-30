@@ -11,7 +11,7 @@ const darkModePalette: PaletteOptions = {
     main: "#ff4a4a",
   },
   background: {
-    default: "#191a1a",
+    default: "#10061E",
     paper: "#252728",
   },
 };
@@ -19,7 +19,7 @@ const darkModePalette: PaletteOptions = {
 const lightModePalette: PaletteOptions = {
   mode: "light",
   primary: {
-    main: "#ff4a4a",
+    main: "#FC4754",
   },
 };
 

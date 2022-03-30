@@ -1,8 +1,8 @@
 import { endOfToday, isAfter } from "date-fns";
+// import { alpha, styled } from '@mui/material/styles';
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import InfoIcon from "@mui/icons-material/Info";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -10,13 +10,12 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+// import InputBase from '@mui/material/InputBase';
 
 import { AppContext } from "../../contexts/AppContext";
 import { collateralTokens, priceIdentifiers } from "../../helpers/constants";
@@ -188,7 +187,6 @@ const LSPForm: React.FC<ILSPForm> = ({
   saveFormOptions,
   handleNext,
 }) => {
-  const [isTooltipOpen, setTooltipOpen] = React.useState(false);
   const { chainId } = React.useContext(AppContext);
   const { control, handleSubmit, setError } = useForm<LSPFormOptions>({
     defaultValues: formOptions as LSPFormOptions,
@@ -221,29 +219,36 @@ const LSPForm: React.FC<ILSPForm> = ({
   const renderField = (lspField: FormField<LSPFormOptions>) => {
     if (lspField.name === "expirationTimestamp") {
       return (
-        <Grid key={lspField.name} item xs={12} sm={6}>
-          <Controller
-            name={lspField.name as never}
-            control={control}
-            rules={lspField.rules}
-            render={({ field, fieldState, formState }) => (
-              <DateTimePicker
-                {...field}
-                label={camelToSentenceCase(lspField.name)}
-                renderInput={(props: TextFieldProps) => (
-                  <TextField
-                    {...props}
-                    fullWidth
-                    variant="standard"
-                    disabled={formState.isSubmitting}
-                    required={true}
-                    error={Boolean(fieldState.error?.message)}
-                    helperText={fieldState.error?.message}
-                  />
-                )}
-              />
-            )}
-          />
+        <Grid key={lspField.name} container sm={10} sx={{ my: 3 }}>
+          <Grid item xs={12} md={6} sx={{ pr: 8, mt: 3, mb: { md: 1, lg: 3 } }}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+              {camelToSentenceCase(lspField.name.toString())}
+            </Typography>
+            <Typography variant="subtitle1">{lspField.description}</Typography>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <Controller
+              name={lspField.name as never}
+              control={control}
+              rules={lspField.rules}
+              render={({ field, fieldState, formState }) => (
+                <DateTimePicker
+                  {...field}
+                  renderInput={(props: TextFieldProps) => (
+                    <TextField
+                      {...props}
+                      fullWidth
+                      variant="outlined"
+                      disabled={formState.isSubmitting}
+                      required={true}
+                      error={Boolean(fieldState.error?.message)}
+                      helperText={fieldState.error?.message}
+                    />
+                  )}
+                />
+              )}
+            />
+          </Grid>
         </Grid>
       );
     } else if (
@@ -272,42 +277,53 @@ const LSPForm: React.FC<ILSPForm> = ({
       }
 
       return (
-        <Grid key={lspField.name} item xs={12} sm={6}>
-          <Controller
-            name={lspField.name as never}
-            control={control}
-            rules={lspField.rules}
-            render={({ field, fieldState, formState }) => (
-              <FormControl
-                fullWidth
-                variant="standard"
-                error={Boolean(fieldState.error?.message)}
-              >
-                <InputLabel id={`${lspField.name}-select-label`}>
-                  {label}
-                </InputLabel>
-                <Select
-                  labelId={`${lspField.name}-select-label`}
-                  id={`${lspField.name}-select`}
-                  label={label}
-                  disabled={formState.isSubmitting}
-                  required={Boolean(lspField.rules.required)}
-                  {...field}
+        <Grid key={lspField.name} container sm={10} sx={{ py: 3 }}>
+        <Grid item sm={10} md={6} sx={{ pr: 8, pt: 2}}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+              {camelToSentenceCase(lspField.name.toString())}
+            </Typography>
+            <Typography variant="subtitle1">{lspField.description}</Typography>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <InputLabel id={`${lspField.name}-select-label`} sx={{ mt: { md: 0, lg: 2}, display: ['none', 'none', 'block'] }} >
+              {label}
+            </InputLabel>
+            <Controller
+              name={lspField.name as never}
+              control={control}
+              rules={lspField.rules}
+              render={({ field, fieldState, formState }) => (
+                <FormControl
+                  fullWidth
+                  variant="standard"
+                  error={Boolean(fieldState.error?.message)}
                 >
-                  {lspField.options!.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {lspField.name !== "fpl" || option.includes("KPI Option")
-                        ? option
-                        : camelToSentenceCase(option)}
-                    </MenuItem>
-                  ))}
-                </Select>
-                {Boolean(fieldState.error?.message) && (
-                  <FormHelperText>{fieldState.error?.message}</FormHelperText>
-                )}
-              </FormControl>
-            )}
-          />
+                  <Select
+                    labelId={`${lspField.name}-select-label`}
+                    id={`${lspField.name}-select`}
+                    variant="outlined"
+                    label={label}
+                    disabled={formState.isSubmitting}
+                    required={Boolean(lspField.rules.required)}
+                    sx={{ mt: 1, borderRadius: '4px', border: '1px solid #ced4da'}}
+                    {...field}
+                  >
+                    {lspField.options!.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {lspField.name !== "fpl" ||
+                        option.includes("KPI Option")
+                          ? option
+                          : camelToSentenceCase(option)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {Boolean(fieldState.error?.message) && (
+                    <FormHelperText>{fieldState.error?.message}</FormHelperText>
+                  )}
+                </FormControl>
+              )}
+            />
+          </Grid>
         </Grid>
       );
     }
@@ -316,74 +332,74 @@ const LSPForm: React.FC<ILSPForm> = ({
       return (
         <Grid
           key={lspField.name}
-          item
-          xs={12}
-          sm={6}
           container
-          alignItems="flex-end"
-          justifyContent="space-between"
-        >
-          <FormControlLabel
-            control={
-              <Controller
-                name={lspField.name as never}
-                control={control}
-                rules={lspField.rules}
-                render={({ field, /* fieldState, */ formState }) => (
-                  <Checkbox
-                    checked={field.value}
-                    disabled={formState.isSubmitting}
-                    {...field}
-                  />
-                )}
-              />
-            }
-            label={camelToSentenceCase(lspField.name)}
-          />
-          <Tooltip
-            title={lspField.description ?? ""}
-            open={isTooltipOpen}
-            onOpen={() => setTooltipOpen(true)}
-            onClose={() => setTooltipOpen(false)}
-            leaveDelay={500}
-            placement="bottom-end"
-          >
-            <IconButton onClick={() => setTooltipOpen(!isTooltipOpen)}>
-              <InfoIcon />
-            </IconButton>
-          </Tooltip>
+          alignItems="center"
+          sm={10} sx={{ py: 3 }}>
+          <Grid item sm={10} md={6} sx={{ pr: 8, pt: 2}}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+              {camelToSentenceCase(lspField.name.toString())}
+            </Typography>
+            <Typography variant="subtitle1">{lspField.description}</Typography>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <FormControlLabel
+              control={
+                <Controller
+                  name={lspField.name as never}
+                  control={control}
+                  rules={lspField.rules}
+                  render={({ field, /* fieldState, */ formState }) => (
+                    <Checkbox
+                      checked={field.value}
+                      disabled={formState.isSubmitting}
+                      {...field}
+                    />
+                  )}
+                />
+              }
+              label={camelToSentenceCase(lspField.name)}
+            />
+          </Grid>
         </Grid>
       );
     }
 
     return (
-      <Grid key={lspField.name} item xs={12} sm={6}>
-        <Controller
-          name={lspField.name as never}
-          control={control}
-          rules={lspField.rules}
-          render={({ field, fieldState, formState }) => (
-            <BaseInput
-              disabled={formState.isSubmitting}
-              customField={lspField}
-              hookFormField={field as any}
-              error={fieldState.error?.message || ""}
-            />
-          )}
-        />
+      <Grid key={lspField.name} container sm={10} sx={{ py: 3 }}>
+        <Grid item sm={10} md={6} sx={{ pr: 8, pt: 2}}>
+          <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+            {camelToSentenceCase(lspField.name.toString())}
+          </Typography>
+          <Typography variant="subtitle1">{lspField.description}</Typography>
+        </Grid>
+        <Grid item xs={12} md={5}>
+          <Controller
+            name={lspField.name as never}
+            control={control}
+            rules={lspField.rules}
+            render={({ field, fieldState, formState }) => (
+              <BaseInput
+                disabled={formState.isSubmitting}
+                customField={lspField}
+                hookFormField={field as any}
+                error={fieldState.error?.message || ""}
+              />
+            )}
+          />
+        </Grid>
       </Grid>
     );
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3} sx={{ mt: 1 }}>
+      <Grid container justifyContent="center" spacing={3} sx={{ mt: 1 }}>
         <Grid item xs={12}>
-          <Typography variant="h6">Mandatory Parameters</Typography>
+          <Typography variant="h5">Mandatory Parameters</Typography>
         </Grid>
         {requiredLspFields.map(renderField)}
         <Grid item xs={12}>
-          <Typography variant="h6">Optional Parameters</Typography>
+          <Typography variant="h5">Optional Parameters</Typography>
         </Grid>
         {optionalLspFields.map(renderField)}
         <Grid
