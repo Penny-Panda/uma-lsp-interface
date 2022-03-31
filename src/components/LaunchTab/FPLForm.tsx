@@ -209,6 +209,7 @@ const FPLForm: React.FC<IFPLForm> = ({
     Interval,
     Fallback,
     Aggregation,
+    Rounding,
     Scaling,
     Unresolved,
     ...data
@@ -230,6 +231,7 @@ const FPLForm: React.FC<IFPLForm> = ({
       Interval,
       Fallback,
       Aggregation,
+      Rounding,
       Scaling,
       Unresolved,
       ...customData,
