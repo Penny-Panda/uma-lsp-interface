@@ -37,7 +37,7 @@ const HomePage = ({setCurrentTab}:{setCurrentTab: any}) => {
                                     Launch
                                 </Button>
                                 <Button sx={{mr: 4, mt:3, py: 2, width: '15em'}} variant="contained" onClick={() => setCurrentTab(2)}>
-                                    Distrubute
+                                    Distribute
                                 </Button>
                             </Box>
                         ):(

@@ -16,7 +16,7 @@ import Typography from "@mui/material/Typography";
 
 import { AppContext } from "../../contexts/AppContext";
 import { DistributeOptions, FormField } from "../../helpers/models";
-import BaseInput from "../BaseInput";
+import BaseInputD from '../DistributeBaseInput'
 import BaseSnackbar from "../BaseSnackbar";
 
 const distributeFields: Array<FormField<DistributeOptions>> = [
@@ -159,7 +159,7 @@ const DistributeForm: React.FC = () => {
                 control={control}
                 rules={flowField.rules}
                 render={({ field, fieldState, formState }) => (
-                  <BaseInput
+                  <BaseInputD
                     disabled={formState.isSubmitting}
                     customField={flowField}
                     hookFormField={field as any}
@@ -183,7 +183,7 @@ const DistributeForm: React.FC = () => {
                 control={control as any}
                 rules={{ required: true }}
                 render={({ field, fieldState, formState }) => (
-                  <BaseInput
+                  <BaseInputD
                     disabled={formState.isSubmitting}
                     customField={{
                       name: "address",
@@ -202,7 +202,7 @@ const DistributeForm: React.FC = () => {
                 control={control as any}
                 rules={{ required: true, min: 0, max: 100 }}
                 render={({ field, fieldState, formState }) => (
-                  <BaseInput
+                  <BaseInputD
                     disabled={formState.isSubmitting}
                     customField={{
                       name: "shares",

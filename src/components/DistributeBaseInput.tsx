@@ -9,22 +9,20 @@ import { camelToSentenceCase } from "../helpers/utils";
 
 import BootstrapInput from './BootstrapInput';
 
-interface IBaseInput {
+interface IBaseInputD {
   disabled: boolean;
   customField: FormField<any>;
   hookFormField: ControllerRenderProps;
   error: string;
   fullWidth?: boolean;
-  handleChange: (e: any) => void;
 }
 
-const BaseInput: React.FC<IBaseInput> = ({
+const BaseInputD: React.FC<IBaseInputD> = ({
   disabled,
   customField,
   hookFormField,
   error,
   fullWidth = true,
-  handleChange
 }) => {
   return (
     <React.Fragment>
@@ -39,7 +37,6 @@ const BaseInput: React.FC<IBaseInput> = ({
           type={customField.type || "string"}
           fullWidth={fullWidth}
           error={Boolean(error)}
-          onChange={handleChange}
           inputProps={
             customField.type === "number"
               ? {
@@ -56,4 +53,4 @@ const BaseInput: React.FC<IBaseInput> = ({
   );
 };
 
-export default BaseInput;
+export default BaseInputD;

@@ -200,6 +200,14 @@ const FPLForm: React.FC<IFPLForm> = ({
   const [customList, setCustomList] = React.useState([
     { label: "", value: "" },
   ]);
+  const [ customAncillaryData, setCustomAncillaryData ] = React.useState("");
+
+  const handleChange = (e: any) => {
+    let tempAncillaryData: string | undefined = prepareFormOptions(getValues()).customAncillaryData;
+
+    setCustomAncillaryData(tempAncillaryData!);
+    console.log(tempAncillaryData);
+  }
 
   const prepareFormOptions = ({
     Metric,
@@ -220,7 +228,7 @@ const FPLForm: React.FC<IFPLForm> = ({
       customData[item.label] = item.value;
     });
     
-    console.log("Custom DATA: ", customData);
+    // console.log("Custom DATA: ", customData);
     return ({
     ...data,
     customAncillaryData: JSON.stringify({
@@ -323,7 +331,7 @@ const FPLForm: React.FC<IFPLForm> = ({
     }
   };
 
-  const handleChange = (
+  const handleArrayChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     idx: number,
   ) => {
@@ -371,7 +379,7 @@ const FPLForm: React.FC<IFPLForm> = ({
               placeholder="Label"
               value={customList[key].label}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleChange(e, key)
+                handleArrayChange(e, key)
               }
             />
           </Grid>
@@ -382,7 +390,7 @@ const FPLForm: React.FC<IFPLForm> = ({
               placeholder="Value"
               value={customList[key].value}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleChange(e, key)
+                handleArrayChange(e, key)
               }
             />
           </Grid>
@@ -437,6 +445,7 @@ const FPLForm: React.FC<IFPLForm> = ({
             rules={fplField.rules}
             render={({ field, fieldState, formState }) => (
               <BaseInput
+                handleChange={handleChange}
                 disabled={formState.isSubmitting}
                 customField={fplField}
                 hookFormField={field as any}
